@@ -1,0 +1,88 @@
+import { DriveTestCenter } from '@/types/search';
+
+export const CanadianLocations: DriveTestCenter[] = [
+  {
+    id: 'toronto-metro-east',
+    name: 'Toronto Metro East',
+    address: '1448 Lawrence Ave E, North York, ON M4A 2V6',
+    basePrice: 80,
+    region: 'GTA',
+  },
+  {
+    id: 'toronto-etobicoke',
+    name: 'Toronto Etobicoke',
+    address: '1 Lexington Rd, Etobicoke, ON M9W 5E7',
+    basePrice: 80,
+    region: 'GTA',
+  },
+  {
+    id: 'mississauga',
+    name: 'Mississauga',
+    address: '255 Longside Dr, Mississauga, ON L5W 0G7',
+    basePrice: 85,
+    region: 'GTA',
+  },
+  {
+    id: 'brampton',
+    name: 'Brampton',
+    address: '59 First Gulf Blvd, Brampton, ON L6W 4T8',
+    basePrice: 85,
+    region: 'GTA',
+  },
+  {
+    id: 'london',
+    name: 'London',
+    address: '1203 Oxford St W, London, ON N6H 1V7',
+    basePrice: 75,
+    region: 'Southwest',
+  },
+  {
+    id: 'ottawa',
+    name: 'Ottawa',
+    address: '1570 Walkley Rd, Ottawa, ON K1V 6P5',
+    basePrice: 80,
+    region: 'East',
+  },
+  {
+    id: 'hamilton',
+    name: 'Hamilton',
+    address: '125 Dundurn St S, Hamilton, ON L8P 4K3',
+    basePrice: 75,
+    region: 'Golden Horseshoe',
+  },
+  {
+    id: 'kitchener',
+    name: 'Kitchener',
+    address: '1127 Victoria St N, Kitchener, ON N2B 3T2',
+    basePrice: 75,
+    region: 'Southwest',
+  },
+  {
+    id: 'windsor',
+    name: 'Windsor',
+    address: '2801 Howard Ave, Windsor, ON N8X 3Y4',
+    basePrice: 70,
+    region: 'Southwest',
+  },
+  {
+    id: 'kingston',
+    name: 'Kingston',
+    address: '62 Development Dr, Glenburnie, ON K0H 1S0',
+    basePrice: 70,
+    region: 'East',
+  },
+  {
+    id: 'peterborough',
+    name: 'Peterborough',
+    address: '1615 Lansdowne St W, Peterborough, ON K9K 1R3',
+    basePrice: 70,
+    region: 'Central',
+  },
+  {
+    id: 'thunder-bay',
+    name: 'Thunder Bay',
+    address: '280 Balmoral St, Thunder Bay, ON P7C 5V5',
+    basePrice: 70,
+    region: 'North',
+  },
+];
