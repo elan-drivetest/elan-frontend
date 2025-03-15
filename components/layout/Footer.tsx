@@ -14,7 +14,7 @@ export default function Footer() {
           <div>
             <div className="mb-6">
               <Image
-                src="/full_logo.svg"
+                src="/full_logo_w.svg"
                 alt="Elan Logo"
                 width={140}
                 height={40}
@@ -23,16 +23,16 @@ export default function Footer() {
             </div>
             <p className="text-gray-400 mb-6">Providing quality driving test services across Ontario since 2020.</p>
             <div className="flex space-x-4">
-              <a href="#" className="h-10 w-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-500 transition-colors">
+              <a href="#" className="h-10 w-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-500 transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="h-10 w-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-500 transition-colors">
+              <a href="#" className="h-10 w-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-500 transition-colors">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="h-10 w-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-500 transition-colors">
+              <a href="#" className="h-10 w-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-500 transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="h-10 w-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-500 transition-colors">
+              <a href="#" className="h-10 w-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-500 transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
@@ -94,23 +94,33 @@ export default function Footer() {
             <h4 className="text-sm font-semibold uppercase tracking-wider mb-4">Contact</h4>
             <ul className="space-y-3 text-gray-400">
               <li className="flex items-start">
-                <MapPin className="h-5 w-5 mt-0.5 mr-2 text-emerald-500" />
+                <MapPin className="h-5 w-5 mt-0.5 mr-2 text-brand-500" />
                 <span>123 Drive Ave, Toronto, ON</span>
               </li>
               <li className="flex items-start">
-                <Mail className="h-5 w-5 mt-0.5 mr-2 text-emerald-500" />
+                <Mail className="h-5 w-5 mt-0.5 mr-2 text-brand-500" />
                 <span>info@elan-drivetest.ca</span>
               </li>
               <li className="flex items-start">
-                <Phone className="h-5 w-5 mt-0.5 mr-2 text-emerald-500" />
+                <Phone className="h-5 w-5 mt-0.5 mr-2 text-brand-500" />
                 <span>(123) 456-7890</span>
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 text-sm">
-          <p>© {currentYear} Elan - Drivetest Car Solutions. All rights reserved.</p>
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 text-sm w-full">
+          <Link href="https://www.oonkoo.com" className="flex items-center justify-center w-full transition-colors">
+            < p>© {currentYear} Elan - Drivetest Car Solutions. All rights reserved.</p>
+              {/* Powered by OonkoO
+              <Image
+                src="/oonkoo_logo.svg"
+                alt="Elan Logo"
+                width={35}
+                height={35}
+                className="h-auto mx-2 saturate-0"
+              /> */}
+          </Link>
         </div>
       </div>
     </footer>

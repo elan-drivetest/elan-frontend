@@ -3,27 +3,29 @@
 import { useState, useEffect, useRef } from 'react';
 import { Addon } from '@/types/search';
 import { Info, CheckCircle, AlertCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-type AddonsSelectorProps = {
+type AddonsSelectorV2Props = {
   testType: string;
   selectedAddons: Addon[];
   onChange: (addons: Addon[]) => void;
   hasFreeLesson: boolean;
 };
 
-export default function AddonsSelector({
+export default function AddonsSelectorV2({
   testType,
   selectedAddons,
   onChange,
   hasFreeLesson,
-}: AddonsSelectorProps) {
+}: AddonsSelectorV2Props) {
   const [hasUpgradedToMockTest, setHasUpgradedToMockTest] = useState(false);
   // Store the original free lesson in a ref to persist across renders
   const originalFreeLessonRef = useRef<Addon | null>(null);
   
   // Get lesson price based on test type
   const lessonPrice = testType === 'G2' ? 50 : 60;
-  const mockTestUpgradePrice = testType === 'G2' ? 50 : 40; // G2: 100-50=50, Full G: 100-60=40
+  const mockTestUpgradePrice30Min = 50; // Fixed at $50 for 30min upgrade
+  const mockTestUpgradePrice1Hr = 40; // Fixed at $40 for 1hr upgrade
   
   // Find the free lesson type user has (if any)
   const freeLesson = selectedAddons.find(addon => addon.id === 'free-lesson');
@@ -105,16 +107,10 @@ export default function AddonsSelector({
         originalFreeLessonRef.current = { ...freeLesson };
       }
       
-      // Get the appropriate upgrade price based on the free lesson type and test type
-      let upgradePrice = mockTestUpgradePrice;
-      
-      if (freeLesson.name.includes('30-Minute')) {
-        // 30-min lesson is worth half the full lesson price
-        upgradePrice = testType === 'G2' ? 75 : 70; // 100 - (50/2) = 75 or 100 - (60/2) = 70
-      } else {
-        // 1-hour lesson 
-        upgradePrice = testType === 'G2' ? 50 : 40; // 100 - 50 = 50 or 100 - 60 = 40
-      }
+      // Get the appropriate upgrade price based on the free lesson type
+      const upgradePrice = freeLesson.name.includes('30-Minute') 
+        ? mockTestUpgradePrice30Min 
+        : mockTestUpgradePrice1Hr;
       
       // Remove free lesson and any other lesson or mock test
       const filteredAddons = selectedAddons.filter(addon => 
@@ -182,9 +178,6 @@ export default function AddonsSelector({
   const isSelected = (addonId: string) => {
     return selectedAddons.some(addon => addon.id === addonId);
   };
-
-  // Check if user has a downgrade option from mock test to free lesson
-  // const canDowngradeToFreeLesson = hasUpgradedToMockTest && originalFreeLessonRef.current;
   
   // Downgrade from mock test back to the original free lesson
   const downgradeToFreeLesson = () => {
@@ -201,32 +194,34 @@ export default function AddonsSelector({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
+      {/* Free Lesson Upgrade Offer */}
       {hasFreeLesson && !hasUpgradedToMockTest && (
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-100">
+        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
           <div className="flex items-start">
-            <div className="flex-shrink-0">
-              <Info className="h-6 w-6 text-blue-500" />
-            </div>
-            <div className="ml-3">
-              <h4 className="text-base font-medium text-blue-800">You have a free driving lesson!</h4>
-              <div className="mt-2 text-sm text-blue-700">
-                <p>Want to use your free lesson for a mock test instead?</p>
-                <button 
-                  type="button"
-                  onClick={upgradeLessonToMockTest}
-                  className="mt-3 inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors"
-                >
-                  Upgrade to Mock Test 
-                  <span className="ml-1 bg-blue-500 px-2 py-1 rounded-md text-xs">+${mockTestUpgradePrice}</span>
-                </button>
-              </div>
+            <Info className="h-5 w-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" />
+            <div>
+              <h4 className="font-medium text-gray-800">You have a free driving lesson!</h4>
+              <p className="mt-1 text-sm text-gray-600">
+                Want to use your free {hasFree30MinLesson ? '30-minute' : '1-hour'} lesson for a mock test instead?
+              </p>
+              <button 
+                type="button"
+                onClick={upgradeLessonToMockTest}
+                className="mt-3 px-4 py-2 bg-gray-800 hover:bg-gray-900 text-white text-sm font-medium rounded-lg transition-colors"
+              >
+                Upgrade to Mock Test 
+                <span className="ml-1 bg-gray-700 px-2 py-0.5 rounded text-xs">
+                  +${hasFree30MinLesson ? mockTestUpgradePrice30Min : mockTestUpgradePrice1Hr}
+                </span>
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Addons Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {availableAddons.map((addon) => {
           const isDisabled = (
             // Disable mock test if already upgraded
@@ -244,63 +239,69 @@ export default function AddonsSelector({
           return (
             <div 
               key={addon.id}
-              className={`
-                relative rounded-xl border p-5 transition-all
-                ${isSelected(addon.id) 
-                  ? 'border-brand-500 bg-brand-50 shadow-md' 
-                  : 'border-gray-200 hover:border-brand-300 hover:shadow-sm'}
-                ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-              `}
               onClick={() => !isDisabled && toggleAddon(addon)}
+              className={cn(
+                "relative rounded-lg border p-4 transition-all",
+                isSelected(addon.id) 
+                  ? 'border-gray-400 bg-gray-50 shadow-sm' 
+                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50',
+                isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+              )}
             >
               <div className="flex justify-between items-start">
-                <div>
-                  <h4 className="font-semibold text-gray-900">{addon.name}</h4>
-                  <p className="text-sm text-gray-600 mt-1">{addon.description}</p>
+                <div className="pr-6">
+                  <h4 className="font-medium text-gray-800">{addon.name}</h4>
+                  <p className="text-sm text-gray-500 mt-1">{addon.description}</p>
                   
-                  {(addon.id === 'mock-test' && hasLesson && !hasUpgradedToMockTest) ? (
-                    <div className="flex items-center mt-2 text-xs text-amber-600">
-                      <AlertCircle className="h-4 w-4 mr-1" />
-                      <p>{"You can't select both lessons and mock test."}</p>
+                  {/* Conditional messages */}
+                  {(addon.id === 'mock-test' && hasLesson && !hasUpgradedToMockTest) && (
+                    <div className="flex items-center mt-2 text-xs text-gray-500">
+                      <AlertCircle className="h-3.5 w-3.5 text-gray-400 mr-1" />
+                      <p>{"Can't select with active lesson"}</p>
                     </div>
-                  ) : null}
+                  )}
                   
-                  {(addon.id === 'lesson-1hr' && hasMockTest) ? (
-                    <div className="flex items-center mt-2 text-xs text-amber-600">
-                      <AlertCircle className="h-4 w-4 mr-1" />
-                      <p>{"You can't select both lessons and mock test."}</p>
+                  {(addon.id === 'lesson-1hr' && hasMockTest) && (
+                    <div className="flex items-center mt-2 text-xs text-gray-500">
+                      <AlertCircle className="h-3.5 w-3.5 text-gray-400 mr-1" />
+                      <p>{"Can't select with active mock test"}</p>
                     </div>
-                  ) : null}
+                  )}
                   
                   {(addon.id === 'mock-test' && hasUpgradedToMockTest && !isSelected('mock-test')) && (
-                    <div className="flex items-center mt-2 text-xs text-amber-600">
-                      <AlertCircle className="h-4 w-4 mr-1" />
-                      <p>{"You've already upgraded to a mock test."}</p>
+                    <div className="flex items-center mt-2 text-xs text-gray-500">
+                      <AlertCircle className="h-3.5 w-3.5 text-gray-400 mr-1" />
+                      <p>Already upgraded to mock test</p>
                     </div>
                   )}
                   
                   {(addon.id === 'lesson-1hr' && hasFree1HrLesson) && (
                     <div className="flex items-center mt-2 text-xs text-green-600">
-                      <CheckCircle className="h-4 w-4 mr-1" />
-                      <p>You already have a free 1-hour lesson included!</p>
+                      <CheckCircle className="h-3.5 w-3.5 mr-1" />
+                      <p>Free 1-hour lesson included</p>
                     </div>
                   )}
                   
                   {(addon.id === 'lesson-1hr' && hasFree30MinLesson) && (
                     <div className="flex items-center mt-2 text-xs text-blue-600">
-                      <Info className="h-4 w-4 mr-1" />
-                      <p>For free 1-hour lessons, pickup must be 100km+ away.</p>
+                      <Info className="h-3.5 w-3.5 mr-1" />
+                      <p>Free 1-hour for 100km+ distance</p>
                     </div>
                   )}
                 </div>
-                <div className="flex-shrink-0">
-                  <span className="text-lg font-bold text-brand-600">${addon.price}</span>
+                
+                <div className="text-right">
+                  <span className="text-lg font-medium text-gray-900">${addon.price}</span>
                 </div>
               </div>
               
-              <div className={`absolute top-4 right-4 h-5 w-5 rounded-full flex items-center justify-center ${isSelected(addon.id) ? 'bg-brand-500' : 'border-2 border-gray-300'}`}>
+              {/* Checkbox indicator */}
+              <div className={cn(
+                "absolute top-4 right-4 h-4 w-4 rounded-full flex items-center justify-center",
+                isSelected(addon.id) ? 'bg-gray-800' : 'border border-gray-300'
+              )}>
                 {isSelected(addon.id) && (
-                  <svg className="h-3 w-3 text-white" fill="currentColor" viewBox="0 0 12 12">
+                  <svg className="h-2.5 w-2.5 text-white" fill="currentColor" viewBox="0 0 12 12">
                     <path d="M3.72 6.96l1.44 1.44 3.12-3.12-1.44-1.44-1.68 1.68-.72-.72L3 6.24l.72.72z" />
                   </svg>
                 )}
@@ -310,25 +311,23 @@ export default function AddonsSelector({
         })}
       </div>
 
-      {/* Show information about currently selected upgraded mock test */}
+      {/* Downgrade Option */}
       {hasUpgradedToMockTest && originalFreeLessonRef.current && (
-        <div className="mt-4 bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-xl border border-purple-100">
+        <div className="mt-2 bg-gray-50 p-4 rounded-lg border border-gray-200">
           <div className="flex items-start">
-            <div className="flex-shrink-0">
-              <Info className="h-6 w-6 text-purple-500" />
-            </div>
-            <div className="ml-3">
-              <h4 className="text-base font-medium text-purple-800">Want to go back to your free lesson?</h4>
-              <div className="mt-2 text-sm text-purple-700">
-                <p>You can revert back to your original free {originalFreeLessonRef.current.name.includes('30-Minute') ? '30-minute' : '1-hour'} lesson.</p>
-                <button 
-                  type="button"
-                  onClick={downgradeToFreeLesson}
-                  className="mt-3 inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors"
-                >
-                  Return to Free Lesson
-                </button>
-              </div>
+            <Info className="h-5 w-5 text-gray-500 mt-0.5 mr-2 flex-shrink-0" />
+            <div>
+              <h4 className="font-medium text-gray-800">Want to go back to your free lesson?</h4>
+              <p className="mt-1 text-sm text-gray-600">
+                You can revert to your original free {originalFreeLessonRef.current.name.includes('30-Minute') ? '30-minute' : '1-hour'} lesson.
+              </p>
+              <button 
+                type="button"
+                onClick={downgradeToFreeLesson}
+                className="mt-3 px-4 py-2 border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+              >
+                Return to Free Lesson
+              </button>
             </div>
           </div>
         </div>

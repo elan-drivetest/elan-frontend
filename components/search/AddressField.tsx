@@ -97,7 +97,7 @@ export default function AddressField({
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             className={`w-full p-3 pl-10 border border-gray-300 rounded-lg transition-colors ${
-              isFocused ? 'border-emerald-500 ring-1 ring-emerald-500' : 'focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
+              isFocused ? 'border-brand-500 ring-1 ring-brand-500' : 'focus:border-brand-500 focus:ring-1 focus:ring-brand-500'
             }`}
             placeholder="Postal Code"
             required={isRequired}
@@ -122,7 +122,7 @@ export default function AddressField({
               setTimeout(() => setIsFocused(false), 200);
             }}
             className={`w-full p-3 pl-10 border border-gray-300 rounded-lg transition-colors ${
-              isFocused ? 'border-emerald-500 ring-1 ring-emerald-500' : 'focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
+              isFocused ? 'border-brand-500 ring-1 ring-brand-500' : 'focus:border-brand-500 focus:ring-1 focus:ring-brand-500'
             }`}
             placeholder={placeholder}
             required={isRequired}
@@ -136,11 +136,11 @@ export default function AddressField({
               {suggestions.map((suggestion, index) => (
                 <div
                   key={index}
-                  className="cursor-pointer select-none relative py-3 px-4 hover:bg-emerald-50 transition-colors"
+                  className="cursor-pointer select-none relative py-3 px-4 hover:bg-brand-50 transition-colors"
                   onClick={() => handleSelectSuggestion(suggestion)}
                 >
                   <div className="flex items-center">
-                    <MapPin className="h-4 w-4 text-emerald-500 mr-2 flex-shrink-0" />
+                    <MapPin className="h-4 w-4 text-brand-500 mr-2 flex-shrink-0" />
                     <span className="truncate">{suggestion}</span>
                   </div>
                 </div>

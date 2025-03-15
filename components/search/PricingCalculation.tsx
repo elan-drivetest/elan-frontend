@@ -137,12 +137,12 @@ export default function PricingCalculation({
     <div className="p-8 space-y-8">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          <DollarSign className="h-7 w-7 text-emerald-500 mr-2" />
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+          <DollarSign className="h-7 w-7 text-brand-500 mr-2" />
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-brand-600 to-brand-600 bg-clip-text text-transparent">
             Pricing Summary
           </h2>
         </div>
-        <div className="text-3xl font-bold text-emerald-600">
+        <div className="text-3xl font-bold text-brand-600">
           ${totalPrice.toFixed(2)}
         </div>
       </div>
@@ -246,7 +246,7 @@ export default function PricingCalculation({
                 
                 <div className="flex justify-between font-bold text-lg pt-4 mt-4 border-t border-gray-200">
                   <span>Total:</span>
-                  <span className="text-emerald-600">${totalPrice.toFixed(2)}</span>
+                  <span className="text-brand-600">${totalPrice.toFixed(2)}</span>
                 </div>
               </div>
             )}
@@ -265,7 +265,7 @@ export default function PricingCalculation({
               </div>
               
               {distance > 50 && (
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100 rounded-lg p-4 text-sm text-green-800">
+                <div className="bg-gradient-to-r from-green-50 to-brand-50 border border-green-100 rounded-lg p-4 text-sm text-green-800">
                   <p className="font-bold text-center mb-2 text-base">DISCOUNT APPLIED!</p>
                   <p>Since your pickup location is <span className="font-semibold">{distance}km</span> away:</p>
                   <ul className="mt-2 space-y-2">
@@ -305,14 +305,14 @@ export default function PricingCalculation({
       <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-md">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
-            <ShoppingBag className="h-6 w-6 text-emerald-500 mr-2" />
-            <h3 className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+            <ShoppingBag className="h-6 w-6 text-brand-500 mr-2" />
+            <h3 className="text-xl font-bold bg-gradient-to-r from-brand-600 to-brand-600 bg-clip-text text-transparent">
               Available Add-ons
             </h3>
           </div>
           <button 
             onClick={() => setExpandAddons(!expandAddons)}
-            className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg text-sm font-medium transition-colors"
+            className="px-4 py-2 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-lg text-sm font-medium transition-colors"
           >
             {expandAddons ? 'Hide options' : 'Show options'}
           </button>
@@ -352,13 +352,13 @@ export default function PricingCalculation({
         
         <button
           type="button"
-          className="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+          className="w-full py-4 px-6 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
         >
           Continue to Payment
         </button>
         
         <p className="text-xs text-gray-500 text-center">
-          By continuing, you agree to our <a href="#" className="text-emerald-600 hover:underline">Refund Policy</a> and <a href="#" className="text-emerald-600 hover:underline">Terms of Service</a>
+          By continuing, you agree to our <a href="#" className="text-brand-600 hover:underline">Refund Policy</a> and <a href="#" className="text-brand-600 hover:underline">Terms of Service</a>
         </p>
       </div>
     </div>
